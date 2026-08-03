@@ -51,7 +51,7 @@ const CANDIDATES: { species: Species; zone: string; location: string }[] = [
 /** Placeholder for the ML footprint-recognition endpoint. */
 export const footprintAiService = {
   analyze: async (_file: File): Promise<DetectionResult> => {
-    const pick = CANDIDATES[Math.floor(Math.random() * CANDIDATES.length)];
+    const pick = CANDIDATES[Math.floor(Math.random() * CANDIDATES.length)]!;
     const now = new Date();
     const result: DetectionResult = {
       species: pick.species,
