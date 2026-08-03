@@ -123,7 +123,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           time: result.time,
           imageUrl,
           source: "Footprint Upload",
-          officerName: officer?.name,
+          officerName: officer?.name ?? "Unassigned",
         },
         ...prev,
       ]);
@@ -156,7 +156,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           date: result.date,
           time: result.time,
           source: "Footprint Upload",
-          officerName: officer?.name,
+          officerName: officer?.name ?? "Unassigned",
         },
         ...prev,
       ]);
