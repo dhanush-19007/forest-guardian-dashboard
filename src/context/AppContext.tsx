@@ -8,8 +8,18 @@ import {
   type ReactNode,
 } from "react";
 import { mockAlerts, mockDetections, mockMarkers } from "@/services/mockData";
+import {
+  mockCameraDetections,
+  mockCameras,
+} from "@/services/cameraMockData";
+import {
+  cameraDetectionToAlert,
+  cameraDetectionToMarker,
+} from "@/services/cameraApi";
 import type {
   AlertItem,
+  Camera,
+  CameraDetection,
   Detection,
   DetectionResult,
   MapMarker,
@@ -30,8 +40,11 @@ interface AppState {
   detections: Detection[];
   alerts: AlertItem[];
   markers: MapMarker[];
+  cameras: Camera[];
+  cameraDetections: CameraDetection[];
   saveDetection: (result: DetectionResult, imageUrl: string) => void;
   acknowledgeAlert: (id: string) => void;
+  acknowledgeCameraDetection: (id: string) => void;
   notifications: boolean;
   setNotifications: (value: boolean) => void;
   stats: {
@@ -39,6 +52,9 @@ interface AppState {
     humanAlerts: number;
     activeAlerts: number;
     today: number;
+    cameraDetectionsToday: number;
+    camerasOnline: number;
+    camerasTotal: number;
   };
 }
 
@@ -50,6 +66,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [detections, setDetections] = useState<Detection[]>(mockDetections);
   const [alerts, setAlerts] = useState<AlertItem[]>(mockAlerts);
   const [markers, setMarkers] = useState<MapMarker[]>(mockMarkers);
+  const [cameras] = useState<Camera[]>(mockCameras);
+  const [cameraDetections, setCameraDetections] =
+    useState<CameraDetection[]>(mockCameraDetections);
   const [notifications, setNotifications] = useState(true);
 
   useEffect(() => {
@@ -103,6 +122,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
           date: result.date,
           time: result.time,
           imageUrl,
+          source: "Footprint Upload",
+          officerName: officer?.name,
         },
         ...prev,
       ]);
@@ -120,6 +141,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
           location: result.location,
           date: result.date,
           time: result.time,
+          source: "Footprint Upload",
         },
         ...prev,
       ]);
@@ -133,29 +155,59 @@ export function AppProvider({ children }: { children: ReactNode }) {
           coordinates: result.coordinates,
           date: result.date,
           time: result.time,
+          source: "Footprint Upload",
+          officerName: officer?.name,
         },
         ...prev,
       ]);
     },
-    [],
+    [officer],
   );
+
+  const acknowledgeCameraDetection = useCallback((id: string) => {
+    setCameraDetections((prev) =>
+      prev.map((d) => (d.id === id ? { ...d, status: "Acknowledged" } : d)),
+    );
+  }, []);
 
   const acknowledgeAlert = useCallback((id: string) => {
     setAlerts((prev) =>
       prev.map((a) => (a.id === id ? { ...a, status: "Acknowledged" } : a)),
     );
+    setCameraDetections((prev) =>
+      prev.map((d) =>
+        `ALT-${d.id}` === id ? { ...d, status: "Acknowledged" } : d,
+      ),
+    );
   }, []);
+
+  /** Footprint alerts + camera-generated alerts, newest first. */
+  const allAlerts = useMemo(() => {
+    const cctv = cameraDetections.map(cameraDetectionToAlert);
+    return [...alerts, ...cctv].sort((a, b) =>
+      `${b.date} ${b.time}`.localeCompare(`${a.date} ${a.time}`),
+    );
+  }, [alerts, cameraDetections]);
+
+  const allMarkers = useMemo(
+    () => [...markers, ...cameraDetections.map(cameraDetectionToMarker)],
+    [markers, cameraDetections],
+  );
 
   const stats = useMemo(() => {
     const today = new Date().toISOString().slice(0, 10);
     return {
       totalAnimals: detections.filter((d) => d.species !== "Human Footprint")
         .length,
-      humanAlerts: alerts.filter((a) => a.kind === "Human").length,
-      activeAlerts: alerts.filter((a) => a.status === "New").length,
+      humanAlerts: allAlerts.filter((a) => a.kind === "Human").length,
+      activeAlerts: allAlerts.filter((a) => a.status === "New").length,
       today: detections.filter((d) => d.date === today).length,
+      cameraDetectionsToday: cameraDetections.filter((d) => d.date === today)
+        .length,
+      camerasOnline: cameras.filter((c) => c.status === "Online").length,
+      camerasTotal: cameras.length,
     };
-  }, [detections, alerts]);
+  }, [detections, allAlerts, cameraDetections, cameras]);
 
   const value: AppState = {
     officer,
@@ -164,10 +216,13 @@ export function AppProvider({ children }: { children: ReactNode }) {
     logout,
     updateOfficer,
     detections,
-    alerts,
-    markers,
+    alerts: allAlerts,
+    markers: allMarkers,
+    cameras,
+    cameraDetections,
     saveDetection,
     acknowledgeAlert,
+    acknowledgeCameraDetection,
     notifications,
     setNotifications,
     stats,
