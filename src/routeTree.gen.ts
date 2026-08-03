@@ -15,6 +15,7 @@ import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DetectionRouteImport } from './routes/detection'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SurveillanceRouteImport } from './routes/surveillance'
 import { Route as TrackingRouteImport } from './routes/tracking'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const SettingsRoute = SettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SurveillanceRoute = SurveillanceRouteImport.update({
+  id: '/surveillance',
+  path: '/surveillance',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrackingRoute = TrackingRouteImport.update({
   id: '/tracking',
   path: '/tracking',
@@ -60,6 +66,7 @@ export interface FileRoutesByFullPath {
   '/detection': typeof DetectionRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
+  '/surveillance': typeof SurveillanceRoute
   '/tracking': typeof TrackingRoute
 }
 export interface FileRoutesByTo {
@@ -69,6 +76,7 @@ export interface FileRoutesByTo {
   '/detection': typeof DetectionRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
+  '/surveillance': typeof SurveillanceRoute
   '/tracking': typeof TrackingRoute
 }
 export interface FileRoutesById {
@@ -79,6 +87,7 @@ export interface FileRoutesById {
   '/detection': typeof DetectionRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
+  '/surveillance': typeof SurveillanceRoute
   '/tracking': typeof TrackingRoute
 }
 export interface FileRouteTypes {
@@ -90,6 +99,7 @@ export interface FileRouteTypes {
     | '/detection'
     | '/history'
     | '/settings'
+    | '/surveillance'
     | '/tracking'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -99,6 +109,7 @@ export interface FileRouteTypes {
     | '/detection'
     | '/history'
     | '/settings'
+    | '/surveillance'
     | '/tracking'
   id:
     | '__root__'
@@ -108,6 +119,7 @@ export interface FileRouteTypes {
     | '/detection'
     | '/history'
     | '/settings'
+    | '/surveillance'
     | '/tracking'
   fileRoutesById: FileRoutesById
 }
@@ -118,6 +130,7 @@ export interface RootRouteChildren {
   DetectionRoute: typeof DetectionRoute
   HistoryRoute: typeof HistoryRoute
   SettingsRoute: typeof SettingsRoute
+  SurveillanceRoute: typeof SurveillanceRoute
   TrackingRoute: typeof TrackingRoute
 }
 
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SettingsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/surveillance': {
+      id: '/surveillance'
+      path: '/surveillance'
+      fullPath: '/surveillance'
+      preLoaderRoute: typeof SurveillanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tracking': {
       id: '/tracking'
       path: '/tracking'
@@ -182,6 +202,7 @@ const rootRouteChildren: RootRouteChildren = {
   DetectionRoute: DetectionRoute,
   HistoryRoute: HistoryRoute,
   SettingsRoute: SettingsRoute,
+  SurveillanceRoute: SurveillanceRoute,
   TrackingRoute: TrackingRoute,
 }
 export const routeTree = rootRouteImport

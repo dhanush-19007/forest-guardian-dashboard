@@ -19,6 +19,7 @@ export function DetectionTable({
               <th className="px-4 py-3 font-semibold">Image</th>
               <th className="px-4 py-3 font-semibold">Species</th>
               <th className="px-4 py-3 font-semibold">Confidence</th>
+              <th className="px-4 py-3 font-semibold">Source</th>
               <th className="px-4 py-3 font-semibold">Location</th>
               {showDate ? <th className="px-4 py-3 font-semibold">Date</th> : null}
               <th className="px-4 py-3 font-semibold">Time</th>
@@ -42,6 +43,12 @@ export function DetectionTable({
                   <StatusChip
                     label={`${d.confidence}%`}
                     tone={d.confidence >= 90 ? "ack" : "medium"}
+                  />
+                </td>
+                <td className="px-4 py-3">
+                  <StatusChip
+                    label={d.source ?? "Footprint Upload"}
+                    tone="neutral"
                   />
                 </td>
                 <td className="px-4 py-3 text-muted-foreground">{d.location}</td>
@@ -79,6 +86,12 @@ export function DetectionTable({
               </div>
               <p className="mt-1 truncate text-sm text-muted-foreground">
                 {d.location}
+              </p>
+              <p className="mt-1">
+                <StatusChip
+                  label={`Source: ${d.source ?? "Footprint Upload"}`}
+                  tone="neutral"
+                />
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
                 {formatDate(d.date)} · {d.time}
