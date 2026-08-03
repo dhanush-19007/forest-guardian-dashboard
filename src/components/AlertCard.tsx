@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Clock, MapPin } from "lucide-react";
+import { Cctv, Clock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StatusChip, priorityTone, statusTone } from "@/components/StatusChip";
 import { speciesEmoji } from "@/services/mockData";
@@ -42,6 +42,12 @@ export function AlertCard({
               <Clock className="h-3.5 w-3.5 shrink-0" />
               {formatDate(alert.date)} · {alert.time}
             </span>
+            {alert.cameraName ? (
+              <span className="inline-flex items-center gap-1">
+                <Cctv className="h-3.5 w-3.5 shrink-0" />
+                {alert.cameraName}
+              </span>
+            ) : null}
           </div>
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <StatusChip
@@ -49,6 +55,10 @@ export function AlertCard({
               tone={priorityTone(alert.priority)}
             />
             <StatusChip label={alert.kind} tone="neutral" />
+            <StatusChip
+              label={`Source: ${alert.source ?? "Footprint Upload"}`}
+              tone="neutral"
+            />
             {onAcknowledge && alert.status === "New" ? (
               <Button
                 size="sm"

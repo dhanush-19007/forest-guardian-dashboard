@@ -33,6 +33,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9231, lng: 77.5342 },
     date: "2026-08-03",
     time: "10:42 AM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("tiger-print"),
   },
   {
@@ -44,6 +46,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9412, lng: 77.5601 },
     date: "2026-08-03",
     time: "08:15 AM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("human-print"),
   },
   {
@@ -55,6 +59,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9055, lng: 77.5122 },
     date: "2026-08-02",
     time: "06:55 PM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("eleph-print"),
   },
   {
@@ -66,6 +72,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.8975, lng: 77.5678 },
     date: "2026-08-02",
     time: "04:20 AM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("leopard-print"),
   },
   {
@@ -77,6 +85,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9502, lng: 77.4988 },
     date: "2026-08-01",
     time: "11:05 PM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("bear-print"),
   },
   {
@@ -88,6 +98,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9128, lng: 77.5455 },
     date: "2026-08-01",
     time: "05:30 PM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("deer-print"),
   },
   {
@@ -99,6 +111,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9309, lng: 77.5251 },
     date: "2026-07-31",
     time: "02:12 AM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("human2-print"),
   },
   {
@@ -110,6 +124,8 @@ export const mockDetections: Detection[] = [
     coordinates: { lat: 12.9388, lng: 77.5399 },
     date: "2026-07-30",
     time: "09:47 PM",
+    source: "Footprint Upload",
+    officerName: "Ranger Ravi",
     imageUrl: img("tiger2-print"),
   },
 ];
@@ -184,6 +200,8 @@ export const mockAlerts: AlertItem[] = [
 ];
 
 export const mockMarkers: MapMarker[] = mockDetections.map((d) => ({
+  source: "Footprint Upload" as const,
+  officerName: "Ranger Ravi",
   id: `MRK-${d.id}`,
   species: d.species,
   zone: d.zone,

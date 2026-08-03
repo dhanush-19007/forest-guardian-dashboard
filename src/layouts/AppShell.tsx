@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   LogOut,
   Map as MapIcon,
+  Cctv,
   Menu,
   Settings,
   ShieldCheck,
@@ -19,6 +20,7 @@ import { cn } from "@/lib/utils";
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { to: "/detection", label: "Footprint Detection", icon: Footprints },
+  { to: "/surveillance", label: "Live Surveillance", icon: Cctv },
   { to: "/alerts", label: "Alerts", icon: Bell },
   { to: "/tracking", label: "Tracking", icon: MapIcon },
   { to: "/history", label: "Detection History", icon: History },
