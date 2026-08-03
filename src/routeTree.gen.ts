@@ -13,6 +13,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DetectionRouteImport } from './routes/detection'
+import { Route as HistoryRouteImport } from './routes/history'
+import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as TrackingRouteImport } from './routes/tracking'
 
 const IndexRoute = IndexRouteImport.update({
@@ -35,6 +37,16 @@ const DetectionRoute = DetectionRouteImport.update({
   path: '/detection',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrackingRoute = TrackingRouteImport.update({
   id: '/tracking',
   path: '/tracking',
@@ -46,6 +58,8 @@ export interface FileRoutesByFullPath {
   '/alerts': typeof AlertsRoute
   '/dashboard': typeof DashboardRoute
   '/detection': typeof DetectionRoute
+  '/history': typeof HistoryRoute
+  '/settings': typeof SettingsRoute
   '/tracking': typeof TrackingRoute
 }
 export interface FileRoutesByTo {
@@ -53,6 +67,8 @@ export interface FileRoutesByTo {
   '/alerts': typeof AlertsRoute
   '/dashboard': typeof DashboardRoute
   '/detection': typeof DetectionRoute
+  '/history': typeof HistoryRoute
+  '/settings': typeof SettingsRoute
   '/tracking': typeof TrackingRoute
 }
 export interface FileRoutesById {
@@ -61,14 +77,38 @@ export interface FileRoutesById {
   '/alerts': typeof AlertsRoute
   '/dashboard': typeof DashboardRoute
   '/detection': typeof DetectionRoute
+  '/history': typeof HistoryRoute
+  '/settings': typeof SettingsRoute
   '/tracking': typeof TrackingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/alerts' | '/dashboard' | '/detection' | '/tracking'
+  fullPaths:
+    | '/'
+    | '/alerts'
+    | '/dashboard'
+    | '/detection'
+    | '/history'
+    | '/settings'
+    | '/tracking'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/alerts' | '/dashboard' | '/detection' | '/tracking'
-  id: '__root__' | '/' | '/alerts' | '/dashboard' | '/detection' | '/tracking'
+  to:
+    | '/'
+    | '/alerts'
+    | '/dashboard'
+    | '/detection'
+    | '/history'
+    | '/settings'
+    | '/tracking'
+  id:
+    | '__root__'
+    | '/'
+    | '/alerts'
+    | '/dashboard'
+    | '/detection'
+    | '/history'
+    | '/settings'
+    | '/tracking'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,6 +116,8 @@ export interface RootRouteChildren {
   AlertsRoute: typeof AlertsRoute
   DashboardRoute: typeof DashboardRoute
   DetectionRoute: typeof DetectionRoute
+  HistoryRoute: typeof HistoryRoute
+  SettingsRoute: typeof SettingsRoute
   TrackingRoute: typeof TrackingRoute
 }
 
@@ -109,6 +151,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DetectionRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tracking': {
       id: '/tracking'
       path: '/tracking'
@@ -124,6 +180,8 @@ const rootRouteChildren: RootRouteChildren = {
   AlertsRoute: AlertsRoute,
   DashboardRoute: DashboardRoute,
   DetectionRoute: DetectionRoute,
+  HistoryRoute: HistoryRoute,
+  SettingsRoute: SettingsRoute,
   TrackingRoute: TrackingRoute,
 }
 export const routeTree = rootRouteImport
