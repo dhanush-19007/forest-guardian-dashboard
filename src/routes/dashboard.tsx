@@ -2,6 +2,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import {
   Activity,
   Bell,
+  Cctv,
+  Video,
   Footprints,
   PawPrint,
   UserRoundSearch,
@@ -54,7 +56,7 @@ function DashboardPage() {
       title="Dashboard"
       subtitle="Forest surveillance overview — updated live"
     >
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <SummaryCard
           index={0}
           label="Total Animal Detections"
@@ -85,6 +87,21 @@ function DashboardPage() {
           icon={Activity}
           tone="secondary"
           hint="Recorded in current shift"
+        />
+        <SummaryCard
+          index={4}
+          label="Camera Detections Today"
+          value={stats.cameraDetectionsToday}
+          icon={Cctv}
+          tone="secondary"
+          hint="Captured by forest CCTV"
+        />
+        <SummaryCard
+          index={5}
+          label="Cameras Online"
+          value={`${stats.camerasOnline}/${stats.camerasTotal}`}
+          icon={Video}
+          hint="Live surveillance coverage"
         />
       </div>
 
