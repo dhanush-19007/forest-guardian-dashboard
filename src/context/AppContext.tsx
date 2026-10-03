@@ -7,14 +7,14 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { mockAlerts, mockDetections, mockMarkers } from "@/services/mockData";
+import { mockAlerts, mockDetections, mockSightings } from "@/services/mockData";
 import {
   mockCameraDetections,
   mockCameras,
 } from "@/services/cameraMockData";
 import {
   cameraDetectionToAlert,
-  cameraDetectionToMarker,
+  cameraDetectionToSighting,
 } from "@/services/cameraApi";
 import type {
   AlertItem,
@@ -22,7 +22,7 @@ import type {
   CameraDetection,
   Detection,
   DetectionResult,
-  MapMarker,
+  Sighting,
 } from "@/utils/types";
 
 interface Officer {
@@ -39,7 +39,7 @@ interface AppState {
   updateOfficer: (patch: Partial<Officer>) => void;
   detections: Detection[];
   alerts: AlertItem[];
-  markers: MapMarker[];
+  sightings: Sighting[];
   cameras: Camera[];
   cameraDetections: CameraDetection[];
   saveDetection: (result: DetectionResult, imageUrl: string) => void;
@@ -65,7 +65,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [officer, setOfficer] = useState<Officer | null>(null);
   const [detections, setDetections] = useState<Detection[]>(mockDetections);
   const [alerts, setAlerts] = useState<AlertItem[]>(mockAlerts);
-  const [markers, setMarkers] = useState<MapMarker[]>(mockMarkers);
+  const [sightings, setSightings] = useState<Sighting[]>(mockSightings);
   const [cameras] = useState<Camera[]>(mockCameras);
   const [cameraDetections, setCameraDetections] =
     useState<CameraDetection[]>(mockCameraDetections);
@@ -146,7 +146,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
         ...prev,
       ]);
 
-      setMarkers((prev) => [
+      setSightings((prev) => [
         {
           id: `MRK-${id}`,
           species: result.species,
@@ -189,9 +189,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     );
   }, [alerts, cameraDetections]);
 
-  const allMarkers = useMemo(
-    () => [...markers, ...cameraDetections.map(cameraDetectionToMarker)],
-    [markers, cameraDetections],
+  const allSightings = useMemo(
+    () => [...sightings, ...cameraDetections.map(cameraDetectionToSighting)],
+    [sightings, cameraDetections],
   );
 
   const stats = useMemo(() => {
@@ -217,7 +217,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     updateOfficer,
     detections,
     alerts: allAlerts,
-    markers: allMarkers,
+    sightings: allSightings,
     cameras,
     cameraDetections,
     saveDetection,

@@ -22,11 +22,10 @@ import { AppShell } from "@/layouts/AppShell";
 import { SummaryCard } from "@/components/SummaryCard";
 import { AlertCard } from "@/components/AlertCard";
 import { DetectionTable } from "@/components/DetectionTable";
-import { MapPanel } from "@/components/map/MapPanel";
 import { EmptyState } from "@/components/EmptyState";
 import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
-import { FOREST_CENTER, weeklyTrend } from "@/services/mockData";
+import { weeklyTrend } from "@/services/mockData";
 
 export const Route = createFileRoute("/dashboard")({
   head: () => ({
@@ -49,7 +48,7 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function DashboardPage() {
-  const { stats, alerts, detections, markers, acknowledgeAlert } = useApp();
+  const { stats, alerts, detections, acknowledgeAlert } = useApp();
 
   return (
     <AppShell
@@ -165,20 +164,6 @@ function DashboardPage() {
           </div>
         </section>
       </div>
-
-      <section className="mt-6">
-        <div className="flex flex-wrap items-center justify-between gap-2">
-          <h2 className="text-base font-bold text-foreground">
-            Last spotted locations
-          </h2>
-          <Button asChild variant="ghost" size="sm" className="rounded-full">
-            <Link to="/tracking">Open tracking</Link>
-          </Button>
-        </div>
-        <div className="mt-3">
-          <MapPanel markers={markers} center={FOREST_CENTER} height="22rem" />
-        </div>
-      </section>
 
       <section className="mt-6">
         <div className="flex flex-wrap items-center justify-between gap-2">

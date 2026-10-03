@@ -1,12 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Cctv, VideoOff } from "lucide-react";
 import { AppShell } from "@/layouts/AppShell";
 import { CameraCard } from "@/components/surveillance/CameraCard";
 import { CameraDetectionCard } from "@/components/surveillance/CameraDetectionCard";
 import { CameraDetectionModal } from "@/components/surveillance/CameraDetectionModal";
 import { EmptyState } from "@/components/EmptyState";
-import { Button } from "@/components/ui/button";
 import { useApp } from "@/context/AppContext";
 import type { CameraDetection } from "@/utils/types";
 
@@ -32,20 +31,12 @@ export const Route = createFileRoute("/surveillance")({
   component: SurveillancePage,
 });
 
-const filters = ["All", "Online", "Offline"] as const;
-type Filter = (typeof filters)[number];
-
 function SurveillancePage() {
-  const { cameras, cameraDetections, acknowledgeCameraDetection, stats } =
+  const { cameras, cameraDetections, acknowledgeCameraDetection } =
     useApp();
-  const [filter, setFilter] = useState<Filter>("All");
   const [selected, setSelected] = useState<CameraDetection | null>(null);
 
-  const visible = useMemo(
-    () =>
-      filter === "All" ? cameras : cameras.filter((c) => c.status === filter),
-    [cameras, filter],
-  );
+  const visible = cameras;
 
   const active = selected
     ? (cameraDetections.find((d) => d.id === selected.id) ?? selected)
@@ -54,23 +45,9 @@ function SurveillancePage() {
   return (
     <AppShell
       title="Live Surveillance"
-      subtitle={`${stats.camerasOnline} of ${stats.camerasTotal} cameras online · ${stats.cameraDetectionsToday} detections today`}
+      subtitle="Monitor forest CCTV cameras and recent wildlife activity."
     >
-      <div className="flex flex-wrap gap-2">
-        {filters.map((f) => (
-          <Button
-            key={f}
-            size="sm"
-            variant={filter === f ? "default" : "outline"}
-            className="rounded-full"
-            onClick={() => setFilter(f)}
-          >
-            {f}
-          </Button>
-        ))}
-      </div>
-
-      <div className="mt-5 grid gap-6 xl:grid-cols-3">
+      <div className="grid gap-6 xl:grid-cols-3">
         <section className="min-w-0 xl:col-span-2">
           <h2 className="text-base font-bold text-foreground">Camera grid</h2>
           <div className="mt-3 grid gap-4 sm:grid-cols-2">
@@ -82,8 +59,7 @@ function SurveillancePage() {
             <div className="mt-3">
               <EmptyState
                 icon={VideoOff}
-                title="No cameras in this filter"
-                description="Switch the filter to see all installed forest cameras."
+                title="No cameras installed yet"
               />
             </div>
           ) : null}

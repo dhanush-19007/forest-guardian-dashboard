@@ -6,14 +6,14 @@
 import {
   mockAlerts,
   mockDetections,
-  mockMarkers,
+  mockSightings,
   weeklyTrend,
 } from "@/services/mockData";
 import type {
   AlertItem,
   Detection,
   DetectionResult,
-  MapMarker,
+  Sighting,
   Species,
 } from "@/utils/types";
 
@@ -32,8 +32,8 @@ export const alertService = {
   getAlerts: (): Promise<AlertItem[]> => delay(mockAlerts),
 };
 
-export const mapService = {
-  getMarkers: (): Promise<MapMarker[]> => delay(mockMarkers),
+export const trackingService = {
+  getSightings: (): Promise<Sighting[]> => delay(mockSightings),
 };
 
 const CANDIDATES: { species: Species; zone: string; location: string }[] = [
