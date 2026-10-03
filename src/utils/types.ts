@@ -44,7 +44,7 @@ export interface AlertItem {
   cameraName?: string;
 }
 
-export interface MapMarker {
+export interface Sighting {
   id: string;
   species: Species;
   zone: string;

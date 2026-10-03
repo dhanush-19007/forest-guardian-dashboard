@@ -1,5 +1,4 @@
-import { useNavigate } from "@tanstack/react-router";
-import { Check, MapPin, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -24,7 +23,6 @@ export function CameraDetectionModal({
   onOpenChange: (open: boolean) => void;
   onAcknowledge: (id: string) => void;
 }) {
-  const navigate = useNavigate();
   if (!detection) return null;
 
   const rows: [string, string][] = [
@@ -32,7 +30,6 @@ export function CameraDetectionModal({
     ["Confidence", `${detection.confidence}%`],
     ["Camera", `${detection.cameraName} (${detection.cameraId})`],
     ["Forest zone", detection.zone],
-    ["Location", detection.location],
     ["Date", formatDate(detection.date)],
     ["Time", detection.time],
   ];
@@ -88,14 +85,6 @@ export function CameraDetectionModal({
             {detection.status === "Acknowledged" ? "Acknowledged" : "Acknowledge"}
           </Button>
           <div className="flex gap-2">
-            <Button
-              variant="outline"
-              className="rounded-full"
-              onClick={() => navigate({ to: "/tracking" })}
-            >
-              <MapPin className="h-4 w-4" />
-              View on Map
-            </Button>
             <Button
               variant="ghost"
               className="rounded-full"

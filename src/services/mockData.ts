@@ -1,6 +1,5 @@
-import type { AlertItem, Detection, MapMarker, Species } from "@/utils/types";
+import type { AlertItem, Detection, Sighting, Species } from "@/utils/types";
 
-export const FOREST_CENTER: [number, number] = [12.9231, 77.5342];
 
 export const SPECIES_LIST: Species[] = [
   "Tiger",
@@ -205,7 +204,7 @@ export const mockAlerts: AlertItem[] = [
   },
 ];
 
-export const mockMarkers: MapMarker[] = mockDetections.map((d) => ({
+export const mockSightings: Sighting[] = mockDetections.map((d) => ({
   source: "Footprint Upload" as const,
   officerName: "Ranger Ravi",
   id: `MRK-${d.id}`,

@@ -12,7 +12,7 @@ import type {
   AlertItem,
   Camera,
   CameraDetection,
-  MapMarker,
+  Sighting,
 } from "@/utils/types";
 
 const delay = <T,>(data: T, ms = 400): Promise<T> =>
@@ -51,7 +51,7 @@ export const cameraDetectionToAlert = (d: CameraDetection): AlertItem => ({
   cameraName: d.cameraName,
 });
 
-export const cameraDetectionToMarker = (d: CameraDetection): MapMarker => ({
+export const cameraDetectionToSighting = (d: CameraDetection): Sighting => ({
   id: `MRK-${d.id}`,
   species: d.species,
   zone: d.zone,

@@ -1,11 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPinned } from "lucide-react";
 import { AppShell } from "@/layouts/AppShell";
-import { MapPanel } from "@/components/map/MapPanel";
 import { EmptyState } from "@/components/EmptyState";
 import { StatusChip } from "@/components/StatusChip";
 import { useApp } from "@/context/AppContext";
-import { FOREST_CENTER, speciesEmoji } from "@/services/mockData";
+import { speciesEmoji } from "@/services/mockData";
 import { formatDate } from "@/services/forestApi";
 
 export const Route = createFileRoute("/tracking")({
@@ -15,7 +14,7 @@ export const Route = createFileRoute("/tracking")({
       {
         name: "description",
         content:
-          "Interactive map of last spotted locations for tigers, elephants, leopards, bears and human footprints.",
+          "Timeline of last spotted locations for tigers, elephants, leopards, bears and human footprints.",
       },
       { property: "og:title", content: "Tracking | Smart Forest Guardian" },
       {
@@ -28,16 +27,14 @@ export const Route = createFileRoute("/tracking")({
 });
 
 function TrackingPage() {
-  const { markers } = useApp();
+  const { sightings: markers } = useApp();
 
   return (
     <AppShell
       title="Tracking"
       subtitle="Last spotted locations across forest zones"
     >
-      <MapPanel markers={markers} center={FOREST_CENTER} height="30rem" />
-
-      <section className="mt-6">
+      <section>
         <h2 className="text-base font-bold text-foreground">Recent sightings</h2>
         {markers.length === 0 ? (
           <div className="mt-3">
