@@ -3,7 +3,7 @@
  * The browser only ever talks to Spring Boot — never to the FastAPI ML services.
  */
 export const API_BASE_URL = (
-  (import.meta.env.VITE_API_BASE_URL as string | undefined) ||
+  (import.meta.env["VITE_API_BASE_URL"] as string | undefined) ||
   "http://localhost:8080/api"
 ).replace(/\/+$/, "");
 
@@ -22,7 +22,7 @@ export interface ForestStatus {
 }
 
 export class ApiError extends Error {
-  status?: number;
+  status: number | undefined;
   aborted: boolean;
   constructor(message: string, opts: { status?: number; aborted?: boolean } = {}) {
     super(message);
@@ -55,7 +55,7 @@ function messageForStatus(status: number): string {
 
 async function request<T>(
   path: string,
-  init: RequestInit & { signal?: AbortSignal; timeoutMs?: number } = {},
+  init: Omit<RequestInit, "signal"> & { signal?: AbortSignal | undefined; timeoutMs?: number } = {},
 ): Promise<T> {
   const { signal: externalSignal, timeoutMs = DEFAULT_TIMEOUT_MS, ...rest } = init;
   const controller = new AbortController();
@@ -108,7 +108,7 @@ export async function predictFootprint(
     timeoutMs: 60000,
   });
   const animal =
-    data && typeof data === "object" ? (data as Record<string, unknown>).animal : undefined;
+    data && typeof data === "object" ? (data as Record<string, unknown>)["animal"] : undefined;
   if (typeof animal !== "string" || !animal.trim()) {
     throw new ApiError("The server did not return a recognisable animal prediction.");
   }
@@ -121,17 +121,17 @@ export async function getForestStatus(signal?: AbortSignal): Promise<ForestStatu
     throw new ApiError("The server sent an unexpected forest status response.");
   }
   const obj = data as Record<string, unknown>;
-  if (typeof obj.status !== "string") {
+  if (typeof obj["status"] !== "string") {
     throw new ApiError("The forest status response is missing a status value.");
   }
-  const raw = obj.status.trim().toUpperCase();
+  const raw = obj["status"].trim().toUpperCase();
   const status = (KNOWN_STATUSES as readonly string[]).includes(raw)
     ? (raw as ForestStatusValue)
     : "UNKNOWN";
   return {
     status,
-    rawStatus: obj.status,
-    message: typeof obj.message === "string" ? obj.message : "",
+    rawStatus: obj["status"],
+    message: typeof obj["message"] === "string" ? obj["message"] : "",
   };
 }
 
