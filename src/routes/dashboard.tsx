@@ -19,6 +19,8 @@ import {
   YAxis,
 } from "recharts";
 import { AppShell } from "@/layouts/AppShell";
+import FootprintPredictor from "@/components/FootprintPredictor";
+import ForestDashboard from "@/components/ForestDashboard";
 import { SummaryCard } from "@/components/SummaryCard";
 import { AlertCard } from "@/components/AlertCard";
 import { DetectionTable } from "@/components/DetectionTable";
@@ -55,6 +57,16 @@ function DashboardPage() {
       title="Dashboard"
       subtitle="Forest surveillance overview — updated live"
     >
+      <div className="mb-6 rounded-2xl border border-border bg-card p-5 shadow-soft">
+        <h2 className="text-lg font-bold text-foreground">AnimalFootprintAI</h2>
+        <p className="mt-1 text-sm text-muted-foreground">
+          AI-based animal footprint recognition and live forest monitoring. Upload a footprint to identify the animal, and keep an eye on the forest status reported by the detection system.
+        </p>
+      </div>
+      <div className="mb-6 grid gap-6 xl:grid-cols-2">
+        <FootprintPredictor />
+        <ForestDashboard compact />
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         <SummaryCard
           index={0}
