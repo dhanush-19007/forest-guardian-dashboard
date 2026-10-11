@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as DetectionRouteImport } from './routes/detection'
+import { Route as ForestMonitoringRouteImport } from './routes/forest-monitoring'
 import { Route as HistoryRouteImport } from './routes/history'
 import { Route as SettingsRouteImport } from './routes/settings'
 import { Route as SurveillanceRouteImport } from './routes/surveillance'
@@ -36,6 +37,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const DetectionRoute = DetectionRouteImport.update({
   id: '/detection',
   path: '/detection',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForestMonitoringRoute = ForestMonitoringRouteImport.update({
+  id: '/forest-monitoring',
+  path: '/forest-monitoring',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HistoryRoute = HistoryRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/alerts': typeof AlertsRoute
   '/dashboard': typeof DashboardRoute
   '/detection': typeof DetectionRoute
+  '/forest-monitoring': typeof ForestMonitoringRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
   '/surveillance': typeof SurveillanceRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/alerts': typeof AlertsRoute
   '/dashboard': typeof DashboardRoute
   '/detection': typeof DetectionRoute
+  '/forest-monitoring': typeof ForestMonitoringRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
   '/surveillance': typeof SurveillanceRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/alerts': typeof AlertsRoute
   '/dashboard': typeof DashboardRoute
   '/detection': typeof DetectionRoute
+  '/forest-monitoring': typeof ForestMonitoringRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
   '/surveillance': typeof SurveillanceRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/dashboard'
     | '/detection'
+    | '/forest-monitoring'
     | '/history'
     | '/settings'
     | '/surveillance'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/dashboard'
     | '/detection'
+    | '/forest-monitoring'
     | '/history'
     | '/settings'
     | '/surveillance'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/alerts'
     | '/dashboard'
     | '/detection'
+    | '/forest-monitoring'
     | '/history'
     | '/settings'
     | '/surveillance'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   AlertsRoute: typeof AlertsRoute
   DashboardRoute: typeof DashboardRoute
   DetectionRoute: typeof DetectionRoute
+  ForestMonitoringRoute: typeof ForestMonitoringRoute
   HistoryRoute: typeof HistoryRoute
   SettingsRoute: typeof SettingsRoute
   SurveillanceRoute: typeof SurveillanceRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/detection'
       fullPath: '/detection'
       preLoaderRoute: typeof DetectionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forest-monitoring': {
+      id: '/forest-monitoring'
+      path: '/forest-monitoring'
+      fullPath: '/forest-monitoring'
+      preLoaderRoute: typeof ForestMonitoringRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/history': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   AlertsRoute: AlertsRoute,
   DashboardRoute: DashboardRoute,
   DetectionRoute: DetectionRoute,
+  ForestMonitoringRoute: ForestMonitoringRoute,
   HistoryRoute: HistoryRoute,
   SettingsRoute: SettingsRoute,
   SurveillanceRoute: SurveillanceRoute,
